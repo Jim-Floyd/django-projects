@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+{% block title %}
+    Home
+{% endblock title %}
+{% block content %}
+    Available Courses
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Course Name</th>
+                <th scope="col">Course Price</th>
+                <th scope="col">Course Tutor</th>
+                <th scope="col">Enrolling</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses%}
+                
+                    <tr>
+                        <td>{{course.name}}</td>
+                        <td>${{course.price}}</td>
+                        <td>{{course.created_by}}</td>
+                        <td><a type="button" class="btn btn-info" href="{%url 'enroll_course' course.id%}">Enroll</a></td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{%endblock%}

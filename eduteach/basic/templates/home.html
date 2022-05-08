@@ -1,0 +1,72 @@
+{% extends "main.html" %}
+{% block title %}
+    Home
+{% endblock title %}
+{% block content %}
+
+    
+    
+    {% if request.user.is_authenticated %}
+        <h4>Hello {{user.username}}</h4>
+        {%if request.user.is_superuser%}
+            <a type="button" class="btn btn-info" href="{%url 'approvals'%}">Check Approvals</a>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Teacher Name</th>
+                        <th scope="col">Course Name</th>
+                        <th scope="col">Students in Each Course</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                        <tr>
+                            <td>{{course.created_by}}</td>
+                            <td>{{course.name}}</td>
+                            <td>{{course.student.count}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {%endif%}
+        {%if request.user.is_teacher%}
+            <a type="button" class="btn btn-info" href="{%url 'create-course'%}">Add Course</a>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Courser Name</th>
+                        <th scope="col">Students in Each Course</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses_created %}
+                        <tr>
+                            <td>{{course.name}}</td>
+                            <td>{{course.student.count}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {%endif%}
+        {%if request.user.is_student%}
+        <a type="button" class="btn btn-info" href="{%url 'all_courses'%}">All Courses</a>
+        <br>
+         Enrolled Courses
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Course Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses_enrolled%}
+                        <tr>
+                            <td>{{course.name}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+        {%endif%}
+    {% endif %}
+{%endblock%}
